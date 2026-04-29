@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Elden Ring Routebook</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Навигация">
+        <div class="brand">
+          <div class="brand-mark">ER</div>
+          <div>
+            <p>Routebook</p>
+            <span>локальный чеклист</span>
+          </div>
+        </div>
+
+        <nav class="sheet-nav" aria-label="Листы">
+          <button class="nav-item active" data-view="walkthrough" onclick="window.routebookSwitchView?.('walkthrough')">
+            <i data-lucide="route"></i>
+            <span>Маршрут</span>
+          </button>
+          <button class="nav-item" data-view="wiki" onclick="window.routebookSwitchView?.('wiki')">
+            <i data-lucide="book-open"></i>
+            <span>Wiki</span>
+          </button>
+          <button class="nav-item" data-view="plan" onclick="window.routebookSwitchView?.('plan')">
+            <i data-lucide="list-checks"></i>
+            <span>Сводка</span>
+          </button>
+        </nav>
+
+        <div class="progress-card">
+          <div class="ring" id="progressRing" aria-label="Общий прогресс">
+            <span id="progressPercent">0%</span>
+          </div>
+          <div>
+            <strong id="progressCount">0 / 0</strong>
+            <span>шагов закрыто</span>
+          </div>
+        </div>
+
+        <div class="chapter-list" id="chapterList"></div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Elden Ring</p>
+            <h1>Русский маршрут прохождения</h1>
+          </div>
+          <div class="actions">
+            <button class="icon-button" id="expandAll" title="Раскрыть все">
+              <i data-lucide="chevrons-down-up"></i>
+            </button>
+            <button class="icon-button" id="collapseAll" title="Свернуть все">
+              <i data-lucide="chevrons-up-down"></i>
+            </button>
+            <button class="icon-button" id="exportProgress" title="Экспорт прогресса">
+              <i data-lucide="download"></i>
+            </button>
+            <label class="icon-button file-button" title="Импорт прогресса">
+              <i data-lucide="upload"></i>
+              <input id="importProgress" type="file" accept="application/json" />
+            </label>
+            <button class="icon-button danger" id="resetProgress" title="Сбросить прогресс">
+              <i data-lucide="rotate-ccw"></i>
+            </button>
+          </div>
+        </header>
+
+        <section class="hero">
+          <div class="hero-art" aria-hidden="true">
+            <div class="tree"></div>
+            <div class="route-line one"></div>
+            <div class="route-line two"></div>
+            <div class="map-pin p1"></div>
+            <div class="map-pin p2"></div>
+            <div class="map-pin p3"></div>
+          </div>
+          <div class="hero-copy">
+            <p>База взята из локальной выгрузки русской Elden Ring Wiki.</p>
+            <div class="hero-stats">
+              <span id="sectionTotal">0 секций</span>
+              <span id="wikiTotal">wiki загружается</span>
+              <span>автосохранение</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="controls" aria-label="Фильтры">
+          <div class="search-box">
+            <i data-lucide="search"></i>
+            <input id="searchInput" type="search" placeholder="Поиск: Ренни, кузнечный камень, Лейнделл..." />
+          </div>
+          <div class="segmented" id="filterTags" aria-label="Тип шага"></div>
+        </section>
+
+        <section id="walkthroughView" class="view active-view">
+          <div id="sections" class="sections"></div>
+        </section>
+
+        <section id="wikiView" class="view">
+          <div class="view-head">
+            <h2>Локальная wiki</h2>
+            <p>Поиск идет по манифесту `elden-ring-wiki`; ссылки открывают источник на Fandom.</p>
+          </div>
+          <div id="wikiResults" class="wiki-results"></div>
+        </section>
+
+        <section id="planView" class="view">
+          <div class="view-head">
+            <h2>Сводка</h2>
+            <p>Короткий обзор открытых обязательных, необязательных и пропускаемых шагов.</p>
+          </div>
+          <div id="summaryGrid" class="summary-grid"></div>
+        </section>
+      </main>
+    </div>
+
+    <template id="sectionTemplate">
+      <article class="section-card">
+        <button class="section-header">
+          <span class="section-index"></span>
+          <span class="section-title-wrap">
+            <strong class="section-title"></strong>
+            <span class="section-meta"></span>
+          </span>
+          <span class="section-progress"></span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="steps"></div>
+      </article>
+    </template>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="./data/route-data.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
